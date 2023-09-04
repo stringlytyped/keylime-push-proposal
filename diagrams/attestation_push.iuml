@@ -1,0 +1,32 @@
+@startuml
+participant Agent
+participant Verifier
+
+skinparam sequenceMessageAlign direction
+skinparam responseMessageBelowArrow true
+
+group Attestation
+   |||
+
+   loop repeat every n seconds
+       |||
+
+       Agent -[#green]> Verifier: <color green>//Request nonce for attestation//</color>\n<color green><size:10>//(authenticates with mTLS or token)//</size></color>
+       rnote over Verifier: Generates nonce
+       rnote over Verifier #lightgreen: Persists nonce
+       Verifier --> Agent: nonce, pcrMask, imaOffset
+       
+       |||
+
+       Agent -> Verifier: quote, uefiEvents, imaEntries, algs...\n<color green><size:10>//(authenticates with mTLS or token)//</size></color>
+       Verifier --[#green]> Agent: <color green>status, n</color>
+
+       rnote over Verifier: Verifies quote against policy
+       rnote over Verifier #lightgreen: <size:10>When using token for authentication:</size>\nExtends validity of token \n<size:10>(if quote verifies correctly)</size>
+
+       |||
+   end
+
+   |||
+end
+@enduml
