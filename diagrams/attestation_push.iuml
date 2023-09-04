@@ -11,7 +11,7 @@ group Attestation
    loop repeat every n seconds
        |||
 
-       Agent -[#green]> Verifier: <color green>//Request nonce for attestation//</color>\n<color green><size:10>//(authenticates with mTLS or token)//</size></color>
+       Agent -[#green]> Verifier: <color green>//Request attestation details//</color>\n<color green><size:10>//(authenticates with mTLS or token)//</size></color>
        rnote over Verifier: Generates nonce
        rnote over Verifier #lightgreen: Persists nonce
        Verifier --> Agent: nonce, pcrMask, imaOffset
