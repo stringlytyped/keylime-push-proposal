@@ -1,0 +1,44 @@
+@startuml
+participant Agent
+participant Registrar
+participant "Web Service" as WebService #lightblue
+
+skinparam sequenceMessageAlign direction
+skinparam responseMessageBelowArrow true
+
+group Registration
+    |||
+    Agent -> Registrar: EKcert, EKpub, AKpub, <s:red>NKcert</strike>
+
+    rnote over Registrar
+        Produces challenge to link AK to EK
+        <size:10>(in the manner of TPM2_MakeCredential)</size>
+    end note
+
+    Registrar --> Agent: challenge    
+
+    rnote over Agent
+        Produces response
+        <size:10>(using TPM2_ActivateCredential)</size>
+    end note
+
+    Agent -> Registrar: response
+    Registrar --> Agent: status
+    |||
+
+    rnote over Registrar  #lightgreen: Attempts to reach trust decision <size:10>(asynchronously)</size>
+
+    group if [favourable decision is not reached]
+
+        rnote over Registrar  #lightgreen: Check config for webhook URI
+
+        Registrar -[#green]> WebService: <color green>identities...  decisions...</color>
+        WebService --[#green]> Registrar: <color green>additional certs...</color>\n<color green>revised decisions...</color>
+
+    end
+
+    rnote over Registrar  #lightgreen: Makes final trust decision
+
+    |||
+end
+@enduml
