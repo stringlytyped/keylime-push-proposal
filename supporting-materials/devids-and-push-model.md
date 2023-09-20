@@ -1,6 +1,6 @@
-# 802.1AR Secure Device Identity and the Push Model
+# 802.1AR Secure Device Identity and Agent-Driven Attestation
 
-_This is a supplement to the current [draft proposal](https://gist.github.com/stringlytyped/367dd6cd29141f4f97b142035203b12a) for adding push support to Keylime._
+_This is a supplement to the current [enhancement proposal](https://github.com/keylime/enhancements/issues/103) for adding support for agent-driven attestation to Keylime._
 
 The IEEE 802.1AR specification describes a type of X.509 certificate known as a _Secure Device Identifier_, or _DevID_, which is issued by the manufacturer of a networked device and can be used to authenticate the device right out of the factory without further provisioning.
 

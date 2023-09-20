@@ -1,0 +1,46 @@
+@startuml
+participant Agent
+participant Verifier
+
+skinparam sequenceMessageAlign direction
+skinparam responseMessageBelowArrow true
+
+group AK Challenge–Response
+    |||
+    Agent -> Verifier: //Requests nonce//
+
+    rnote over Verifier
+        Generates and stores nonce
+    end note
+
+    Verifier --> Agent: nonce
+
+    rnote over Agent
+        Signs AK with itself
+        <size:10>(using TPM2_Certify)</size>
+    end note
+
+    Agent -> Verifier: signature
+
+    rnote over Verifier
+        Verifies signature against
+        AKpub and nonce
+    end note
+
+    Verifier --> Agent: token
+    |||
+end
+
+group Token Authentication
+    |||
+    Agent -> Verifier: //Issues request// (token)
+
+    rnote over Verifier
+        Checks if token is
+        valid for the agent
+    end note
+
+    Verifier --> Agent: //Sends response//
+    |||
+end
+@enduml

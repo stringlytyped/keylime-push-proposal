@@ -1,0 +1,21 @@
+@startuml
+
+:1. Obtain node identifier;
+:<color blue>2. Register identities\n    <color blue><size:10>//(Registration Protocol)//</size>;
+
+repeat
+
+  repeat :<color blue>3. Request token from verifier\n    <color blue><size:10>//(AK Challenge-Response Protocol)//</size>;
+    backward:<color red>4. wait to retry\n    <color red><size:10>(exponential backoff)</size>;
+  repeat while (authentication success?) is (no \n//(not enrolled)// ) not (yes //(agent enrolled)//)
+
+  repeat :<color blue>5. Send attestation to verifier\n    <color blue><size:10>//(Attestation Protocol)//</size>;
+    backward:<color green>6. wait for //n// seconds\n    <color green><size:10>(indicated by verifier)</size>;
+  repeat while (attestation accepted?) is (yes) not (no)
+
+repeat while (because of authentication failure?) is (yes  //5(a)//) not (no)
+
+:<color red>5(b). wait to retry\n        <color red><size:10>(exponential backoff)</size>;
+:<size:10>repeat from step 5|
+
+@enduml

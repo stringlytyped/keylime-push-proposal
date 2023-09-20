@@ -1,0 +1,22 @@
+@startuml
+participant Agent
+participant Verifier
+
+skinparam sequenceMessageAlign direction
+skinparam responseMessageBelowArrow true
+
+group Attestation
+   |||
+
+   loop repeat every n seconds
+       |||
+       rnote over Verifier: Generates nonce
+       Verifier -> Agent: nonce, pcrMask, imaOffset
+       Agent --> Verifier: quote, uefiEvents, imaEntries, algs...
+       rnote over Verifier: Verifies quote against policy
+       |||
+   end
+
+   |||
+end
+@enduml
